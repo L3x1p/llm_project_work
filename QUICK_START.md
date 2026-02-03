@@ -64,6 +64,28 @@ data = response.json()
 print(data["response"])
 ```
 
+### Multi-Language Support
+
+The API automatically detects the language of your message and responds in the same language:
+
+```python
+# German
+response = requests.post(
+    "http://localhost:8002/chat",
+    json={"message": "Was ist Python?"}
+)
+# Response will be in German
+
+# Spanish
+response = requests.post(
+    "http://localhost:8002/chat",
+    json={"message": "¿Qué es Python?"}
+)
+# Response will be in Spanish
+```
+
+Supports 30+ languages including: German, Spanish, French, Italian, Portuguese, Russian, Chinese, Japanese, Korean, Arabic, Dutch, Polish, and more.
+
 ### JavaScript Example
 
 ```javascript

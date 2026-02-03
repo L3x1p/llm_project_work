@@ -129,6 +129,19 @@ print(f"Response: {data['response']}")
 print(f"Session ID: {data['session_id']}")
 ```
 
+**Example with German (automatic language detection):**
+```python
+import requests
+
+# Ask in German - API will automatically respond in German
+response = requests.post(
+    "http://localhost:8002/chat",
+    json={"message": "Was ist Python?"}
+)
+
+print(response.json()["response"])  # Response will be in German
+```
+
 **Example with session (conversation history):**
 ```python
 import requests

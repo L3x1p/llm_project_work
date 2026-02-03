@@ -14,16 +14,61 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from llama_cpp import Llama
 import json
+from langdetect import detect, LangDetectException
 
 # Import model loading from main.py
 from main import load_model
 
-SYSTEM_PROMPT = (
+SYSTEM_PROMPT_BASE = (
     "You are a helpful assistant. "
     "Answer ONLY the user's latest question. "
     "Do NOT add extra sections like 'Actionable advice', 'User question', or multiple Q&A. "
     "If you need missing info, ask ONE short clarification question."
 )
+
+def detect_language(text: str) -> str:
+    """Detect the language of the input text"""
+    try:
+        lang = detect(text)
+        return lang
+    except LangDetectException:
+        return "en"  # Default to English if detection fails
+
+def get_language_instruction(lang: str) -> str:
+    """Get instruction to respond in the detected language"""
+    language_names = {
+        "de": "German",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
+        "pt": "Portuguese",
+        "ru": "Russian",
+        "zh": "Chinese",
+        "ja": "Japanese",
+        "ko": "Korean",
+        "ar": "Arabic",
+        "nl": "Dutch",
+        "pl": "Polish",
+        "tr": "Turkish",
+        "sv": "Swedish",
+        "da": "Danish",
+        "no": "Norwegian",
+        "fi": "Finnish",
+        "cs": "Czech",
+        "hu": "Hungarian",
+        "ro": "Romanian",
+        "el": "Greek",
+        "he": "Hebrew",
+        "th": "Thai",
+        "vi": "Vietnamese",
+        "id": "Indonesian",
+        "hi": "Hindi",
+    }
+    language_name = language_names.get(lang, "the same language")
+    if lang == "en":
+        return ""  # No extra instruction needed for English
+    return f" IMPORTANT: Respond in {language_name}. Use {language_name} for your entire response."
 
 app = FastAPI(
     title="LLaMA Chat API",
@@ -123,8 +168,13 @@ async def chat(request: ChatRequest):
     if session_id not in sessions:
         sessions[session_id] = []
     
+    # Detect language and build language-aware prompt
+    detected_lang = detect_language(request.message)
+    lang_instruction = get_language_instruction(detected_lang)
+    system_prompt = SYSTEM_PROMPT_BASE + lang_instruction
+    
     # Build prompt with conversation history
-    prompt = f"System: {SYSTEM_PROMPT}\n\n"
+    prompt = f"System: {system_prompt}\n\n"
     for msg in sessions[session_id]:
         prompt += f"User: {msg['user']}\nAssistant: {msg['assistant']}\n\n"
     prompt += f"User: {request.message}\nAssistant:"
@@ -180,8 +230,13 @@ async def chat_stream(request: ChatRequest):
     if session_id not in sessions:
         sessions[session_id] = []
     
+    # Detect language and build language-aware prompt
+    detected_lang = detect_language(request.message)
+    lang_instruction = get_language_instruction(detected_lang)
+    system_prompt = SYSTEM_PROMPT_BASE + lang_instruction
+    
     # Build prompt with conversation history
-    prompt = f"System: {SYSTEM_PROMPT}\n\n"
+    prompt = f"System: {system_prompt}\n\n"
     for msg in sessions[session_id]:
         prompt += f"User: {msg['user']}\nAssistant: {msg['assistant']}\n\n"
     prompt += f"User: {request.message}\nAssistant:"

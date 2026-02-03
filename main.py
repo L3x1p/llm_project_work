@@ -7,13 +7,58 @@ Optimized for RTX 4070 Super GPU
 import os
 from llama_cpp import Llama
 import sys
+from langdetect import detect, LangDetectException
 
-SYSTEM_PROMPT = (
+SYSTEM_PROMPT_BASE = (
     "You are a helpful assistant. "
     "Answer ONLY the user's latest question. "
     "Do NOT add extra sections like 'Actionable advice', 'User question', or multiple Q&A. "
     "If you need missing info, ask ONE short clarification question."
 )
+
+def detect_language(text: str) -> str:
+    """Detect the language of the input text"""
+    try:
+        lang = detect(text)
+        return lang
+    except LangDetectException:
+        return "en"  # Default to English if detection fails
+
+def get_language_instruction(lang: str) -> str:
+    """Get instruction to respond in the detected language"""
+    language_names = {
+        "de": "German",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "it": "Italian",
+        "pt": "Portuguese",
+        "ru": "Russian",
+        "zh": "Chinese",
+        "ja": "Japanese",
+        "ko": "Korean",
+        "ar": "Arabic",
+        "nl": "Dutch",
+        "pl": "Polish",
+        "tr": "Turkish",
+        "sv": "Swedish",
+        "da": "Danish",
+        "no": "Norwegian",
+        "fi": "Finnish",
+        "cs": "Czech",
+        "hu": "Hungarian",
+        "ro": "Romanian",
+        "el": "Greek",
+        "he": "Hebrew",
+        "th": "Thai",
+        "vi": "Vietnamese",
+        "id": "Indonesian",
+        "hi": "Hindi",
+    }
+    language_name = language_names.get(lang, "the same language")
+    if lang == "en":
+        return ""  # No extra instruction needed for English
+    return f" IMPORTANT: Respond in {language_name}. Use {language_name} for your entire response."
 
 def load_model(model_path: str = None):
     """Load the LLaMA model with GPU acceleration"""
@@ -87,8 +132,13 @@ def chat_loop(llm):
                 print("Conversation history cleared.\n")
                 continue
             
+            # Detect language and build language-aware prompt
+            detected_lang = detect_language(user_input)
+            lang_instruction = get_language_instruction(detected_lang)
+            system_prompt = SYSTEM_PROMPT_BASE + lang_instruction
+            
             # Build prompt with conversation history
-            prompt = f"System: {SYSTEM_PROMPT}\n\n"
+            prompt = f"System: {system_prompt}\n\n"
             for msg in conversation_history:
                 prompt += f"User: {msg['user']}\nAssistant: {msg['assistant']}\n\n"
             prompt += f"User: {user_input}\nAssistant:"
