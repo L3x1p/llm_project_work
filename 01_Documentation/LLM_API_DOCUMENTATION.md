@@ -1,8 +1,8 @@
-# LLaMA Chat API Documentation
+# LLM Chat API Documentation
 
 ## Overview
 
-The LLaMA Chat API is a RESTful service that provides access to a local LLaMA 3.1B model running on your RTX 4070 Super GPU. The service runs on `localhost:8002` and provides endpoints for chat interactions, conversation management, and health monitoring.
+The LLM Chat API is a RESTful service that provides access to a local QWEN 3B model running on your system. The service runs on `localhost:8002` and provides endpoints for chat interactions, conversation management, and health monitoring.
 
 ## Quick Start
 
@@ -127,19 +127,6 @@ response = requests.post(
 data = response.json()
 print(f"Response: {data['response']}")
 print(f"Session ID: {data['session_id']}")
-```
-
-**Example with German (automatic language detection):**
-```python
-import requests
-
-# Ask in German - API will automatically respond in German
-response = requests.post(
-    "http://localhost:8002/chat",
-    json={"message": "Was ist Python?"}
-)
-
-print(response.json()["response"])  # Response will be in German
 ```
 
 **Example with session (conversation history):**
@@ -493,5 +480,6 @@ app.add_middleware(
 ## License
 
 This API service is provided as-is for local use.
+
 
 

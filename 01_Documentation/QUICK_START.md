@@ -1,6 +1,6 @@
-# Quick Start Guide - LLaMA Chat API Service
+# Quick Start Guide - LLM Chat API Service
 
-## 🚀 Quick Setup
+## Quick Setup
 
 ### 1. Install Dependencies
 
@@ -134,7 +134,7 @@ response = requests.post(
 
 ## 📚 Full Documentation
 
-See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
+See [API_DOCUMENTATION.md](LLM_API_DOCUMENTATION.md) for complete API reference.
 
 ## 🛠️ Troubleshooting
 
@@ -151,8 +151,8 @@ See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
 
 ## 🎯 Next Steps
 
-1. Read the full [API Documentation](API_DOCUMENTATION.md)
-2. Try the [example client](example_client.py)
+1. Read the full [API Documentation](LLM_API_DOCUMENTATION.md)
+2. Try the [example client](../02_Tests/example_client.py)
 3. Integrate into your project using the provided examples
 
 
