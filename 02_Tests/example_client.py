@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Example client for the LLaMA Chat API
+Example client for the LLM Chat API
 Demonstrates how to connect to the API service from other parts of your project
 """
 
@@ -11,7 +11,7 @@ API_BASE_URL = "http://localhost:8002"
 
 
 class LLMChatClient:
-    """Simple client for interacting with the LLaMA Chat API"""
+    """Simple client for interacting with the LLM Chat API"""
     
     def __init__(self, base_url=API_BASE_URL):
         self.base_url = base_url
@@ -124,7 +124,7 @@ class LLMChatClient:
 
 def example_usage():
     """Example usage of the client"""
-    print("Connecting to LLaMA Chat API...")
+    print("Connecting to LLM Chat API...")
     
     # Create client
     client = LLMChatClient()

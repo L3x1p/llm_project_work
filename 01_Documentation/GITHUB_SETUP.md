@@ -7,7 +7,7 @@
 1. **Create the repository on GitHub:**
    - Go to: https://github.com/new
    - Repository name: `project_work_llm`
-   - Description: "Local LLaMA Chat API Service"
+   - Description: "Local LLM Chat API Service"
    - Set to **Private**
    - **DO NOT** initialize with README, .gitignore, or license (we already have these)
    - Click "Create repository"

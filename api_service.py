@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LLaMA Chat API Service
+LLM Chat API Service
 Runs on localhost:8002
 """
 
@@ -71,8 +71,8 @@ def get_language_instruction(lang: str) -> str:
     return f" IMPORTANT: Respond in {language_name}. Use {language_name} for your entire response."
 
 app = FastAPI(
-    title="LLaMA Chat API",
-    description="Local LLaMA 3.1B Chat API Service",
+    title="LLM Chat API",
+    description="Local QWEN 3B Chat API Service",
     version="1.0.0"
 )
 
@@ -130,7 +130,7 @@ async def startup_event():
 async def root():
     """API root endpoint"""
     return {
-        "service": "LLaMA Chat API",
+        "service": "LLM Chat API",
         "version": "1.0.0",
         "docs": "/docs",
         "health": "/health"
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     if model_path:
         os.environ["MODEL_PATH"] = model_path
     
-    print("Starting LLaMA Chat API Service on http://localhost:8002")
+    print("Starting LLM Chat API Service on http://localhost:8002")
     print("API Documentation available at http://localhost:8002/docs")
     uvicorn.run(app, host="0.0.0.0", port=8002)
 

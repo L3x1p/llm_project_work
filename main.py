@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Local LLaMA 3.1B Chat Interface
+Local LLM 3B Chat Interface
 Optimized for RTX 4070 Super GPU
 """
 
@@ -61,16 +61,16 @@ def get_language_instruction(lang: str) -> str:
     return f" IMPORTANT: Respond in {language_name}. Use {language_name} for your entire response."
 
 def load_model(model_path: str = None):
-    """Load the LLaMA model with GPU acceleration"""
+    """Load the LLM model with GPU acceleration"""
     if model_path is None:
         # Default model path - user can specify their own
         model_path = "qwen2.5-3b-instruct-q4_k_m.gguf"
     
     if not os.path.exists(model_path):
         print(f"Model file not found: {model_path}")
-        print("\nPlease download a 3.1B-3.2B LLaMA model in GGUF format.")
+        print("\nPlease download a 3.1B-3.2B model in GGUF format.")
         print("\n=== WORKING DOWNLOAD OPTIONS ===")
-        print("\nOption 1: LLaMA 3.2 3B Instruct (Recommended)")
+        print("\nOption 1: LLM 3B Instruct (Recommended)")
         print("  hf download Qwen/Qwen2.5-3B-Instruct-GGUF qwen2.5-3b-instruct-q4_k_m.gguf --local-dir .")
         print("  OR")
         print("  hf download Qwen/Qwen2.5-3B-Instruct-GGUF qwen2.5-3b-instruct-q4_k_m.gguf")
@@ -107,7 +107,7 @@ def load_model(model_path: str = None):
 def chat_loop(llm):
     """Main chat loop"""
     print("\n" + "="*60)
-    print("LLaMA 3.1B Chat Interface")
+    print("LLM 3B Chat Interface")
     print("Type 'quit', 'exit', or 'bye' to end the conversation")
     print("Type 'clear' to clear the conversation history")
     print("="*60 + "\n")
