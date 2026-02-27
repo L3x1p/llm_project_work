@@ -69,6 +69,8 @@ print(data["response"])
 The API automatically detects the language of your message and responds in the same language:
 
 ```python
+import requests
+
 # German
 response = requests.post(
     "http://localhost:8002/chat",
@@ -103,6 +105,7 @@ fetch('http://localhost:8002/chat', {
 ### Using the Example Client
 
 ```python
+# Works if run inside 02_Tests
 from example_client import LLMChatClient
 
 client = LLMChatClient()
